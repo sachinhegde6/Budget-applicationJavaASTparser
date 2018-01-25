@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.budgetapp.util.UtilTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2017-09-12T04:13:14" hostname="LAPTOP-FULR87Q7" time="0.004">
+  <properties/>
+  <testcase name="testLastMonth" classname="io.budgetapp.util.UtilTest" time="0.0"/>
+  <testcase name="testYesterday" classname="io.budgetapp.util.UtilTest" time="0.0"/>
+  <testcase name="testLastWeek" classname="io.budgetapp.util.UtilTest" time="0.0"/>
+  <testcase name="testBetweenDate" classname="io.budgetapp.util.UtilTest" time="0.003"/>
+  <testcase name="testInMonth" classname="io.budgetapp.util.UtilTest" time="0.0"/>
+  <testcase name="testIsoDate" classname="io.budgetapp.util.UtilTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

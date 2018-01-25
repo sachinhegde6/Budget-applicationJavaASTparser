@@ -1,0 +1,2522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.budgetapp.resource.TransactionResourceIT" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-09-12T04:13:13" hostname="LAPTOP-FULR87Q7" time="0.09">
+  <properties/>
+  <testcase name="shouldAbleCreateTransaction" classname="io.budgetapp.resource.TransactionResourceIT" time="0.017"/>
+  <testcase name="shouldAbleFindValidTransaction" classname="io.budgetapp.resource.TransactionResourceIT" time="0.013"/>
+  <testcase name="shouldAbleFindTransactionsByBudget" classname="io.budgetapp.resource.TransactionResourceIT" time="0.034"/>
+  <testcase name="shouldAbleDeleteValidTransaction" classname="io.budgetapp.resource.TransactionResourceIT" time="0.019"/>
+  <testcase name="shouldNotAbleDeleteInvalidTransaction" classname="io.budgetapp.resource.TransactionResourceIT" time="0.006"/>
+  <system-out><![CDATA[INFO  [2017-09-12 04:13:13,025] io.dropwizard.server.DefaultServerFactory: Registering jersey handler with root path prefix: /
+INFO  [2017-09-12 04:13:13,025] io.dropwizard.server.DefaultServerFactory: Registering admin handler with root path prefix: /
+INFO  [2017-09-12 04:13:13,028] io.dropwizard.hibernate.SessionFactoryFactory: Entity classes: [io.budgetapp.model.AuthToken, io.budgetapp.model.Budget, io.budgetapp.model.BudgetType, io.budgetapp.model.Category, io.budgetapp.model.Recurring, io.budgetapp.model.Transaction, io.budgetapp.model.User]
+INFO  [2017-09-12 04:13:13,037] org.hibernate.dialect.Dialect: HHH000400: Using dialect: io.budgetapp.hibernate.dialect.CustomHSQLDialect
+INFO  [2017-09-12 04:13:13,062] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@6c6e30
+INFO  [2017-09-12 04:13:13,062] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.Duration] overrides previous : org.hibernate.type.DurationType@5c65f571
+INFO  [2017-09-12 04:13:13,062] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.Instant] overrides previous : org.hibernate.type.InstantType@caa11e8
+INFO  [2017-09-12 04:13:13,062] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.LocalDate] overrides previous : org.hibernate.type.LocalDateType@1ce95d55
+INFO  [2017-09-12 04:13:13,062] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.LocalDateTime] overrides previous : org.hibernate.type.LocalDateTimeType@2425cce2
+INFO  [2017-09-12 04:13:13,062] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.LocalTime] overrides previous : org.hibernate.type.LocalTimeType@305d818c
+INFO  [2017-09-12 04:13:13,063] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.OffsetDateTime] overrides previous : org.hibernate.type.OffsetDateTimeType@66886127
+INFO  [2017-09-12 04:13:13,063] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.OffsetTime] overrides previous : org.hibernate.type.OffsetTimeType@6cc0f3c8
+INFO  [2017-09-12 04:13:13,063] org.hibernate.type.BasicTypeRegistry: HHH000270: Type registration [java.time.ZonedDateTime] overrides previous : org.hibernate.type.ZonedDateTimeType@71e700cb
+WARN  [2017-09-12 04:13:13,091] com.google.common.cache.CacheBuilder: ignoring weigher specified without maximumWeight
+INFO  [2017-09-12 04:13:13,092] io.dropwizard.server.DefaultServerFactory: Registering jersey handler with root path prefix: /
+INFO  [2017-09-12 04:13:13,092] io.dropwizard.server.DefaultServerFactory: Registering admin handler with root path prefix: /
+INFO  [2017-09-12 04:13:13,092] io.dropwizard.server.ServerFactory: Starting budget-app
+  ____            _            _                          
+ |  _ \          | |          | |       /\                
+ | |_) |_   _  __| | __ _  ___| |_     /  \   _ __  _ __  
+ |  _ <| | | |/ _` |/ _` |/ _ \ __|   / /\ \ | '_ \| '_ \ 
+ | |_) | |_| | (_| | (_| |  __/ |_   / ____ \| |_) | |_) |
+ |____/ \__,_|\__,_|\__, |\___|\__| /_/    \_\ .__/| .__/ 
+                     __/ |                   | |   | |    
+                    |___/                    |_|   |_|
+
+INFO  [2017-09-12 04:13:13,094] org.eclipse.jetty.setuid.SetUIDListener: Opened application@f0694bb{HTTP/1.1,[http/1.1]}{0.0.0.0:9999}
+INFO  [2017-09-12 04:13:13,095] org.eclipse.jetty.setuid.SetUIDListener: Opened admin@6ffad2fe{HTTP/1.1,[http/1.1]}{0.0.0.0:8081}
+INFO  [2017-09-12 04:13:13,095] org.eclipse.jetty.server.Server: jetty-9.4.2.v20170220
+INFO  [2017-09-12 04:13:13,095] io.budgetapp.managed.MigrationManaged: begin migration
+INFO  [2017-09-12 04:13:13,106] liquibase: Successfully acquired change log lock
+INFO  [2017-09-12 04:13:13,156] liquibase: Reading from PUBLIC.DATABASECHANGELOG
+INFO  [2017-09-12 04:13:13,161] liquibase: Successfully released change log lock
+INFO  [2017-09-12 04:13:13,162] io.budgetapp.managed.MigrationManaged: finish migration
+DEBUG [2017-09-12 04:13:13,165] io.budgetapp.job.RecurringJob: Start Recurring job job
+DEBUG [2017-09-12 04:13:13,165] io.budgetapp.service.FinanceService: Begin update recurrings...
+INFO  [2017-09-12 04:13:13,166] org.hibernate.hql.internal.QueryTranslatorFactoryInitiator: HHH000397: Using ASTQueryTranslatorFactory
+DEBUG [2017-09-12 04:13:13,173] org.hibernate.SQL: 
+    /* SELECT
+        r 
+    FROM
+        Recurring r 
+    WHERE
+        (
+            r.recurringType = :daily 
+            AND DAY(r.lastRunAt) = :yesterday
+        ) 
+        OR (
+            r.recurringType = :weekly 
+            AND WEEK(r.lastRunAt) = :lastWeek 
+            AND DAYOFWEEK(r.lastRunAt) = DAYOFWEEK(CURRENT_TIMESTAMP)
+        ) 
+        OR (
+            r.recurringType = :monthly 
+            AND MONTH(r.lastRunAt) = :lastMonth 
+            AND DAY(r.lastRunAt) = DAY(CURRENT_TIMESTAMP)
+        ) 
+        OR (
+            r.recurringType = :yearly 
+            AND YEAR(r.lastRunAt) = :lastYear 
+            AND MONTH(r.lastRunAt) = MONTH(CURRENT_TIMESTAMP)
+        ) 
+        OR r.lastRunAt IS NULL */ select
+            recurring0_.id as id1_4_,
+            recurring0_.amount as amount2_4_,
+            recurring0_.budget_type_id as budget_t7_4_,
+            recurring0_.created_at as created_3_4_,
+            recurring0_.last_run_at as last_run4_4_,
+            recurring0_.type as type5_4_,
+            recurring0_.remark as remark6_4_ 
+        from
+            recurrings recurring0_ 
+        where
+            recurring0_.type=? 
+            and day(recurring0_.last_run_at)=? 
+            or recurring0_.type=? 
+            and extract(week_of_year 
+        from
+            recurring0_.last_run_at)=? 
+            and dayofweek(recurring0_.last_run_at)=dayofweek(CURRENT_TIMESTAMP) 
+            or recurring0_.type=? 
+            and month(recurring0_.last_run_at)=? 
+            and day(recurring0_.last_run_at)=day(CURRENT_TIMESTAMP) 
+            or recurring0_.type=? 
+            and year(recurring0_.last_run_at)=? 
+            and month(recurring0_.last_run_at)=month(CURRENT_TIMESTAMP) 
+            or recurring0_.last_run_at is null
+DEBUG [2017-09-12 04:13:13,174] io.budgetapp.service.FinanceService: Found 0 recurring(s) item to update
+DEBUG [2017-09-12 04:13:13,174] io.budgetapp.service.FinanceService: Finish update recurrings...
+DEBUG [2017-09-12 04:13:13,174] io.budgetapp.job.RecurringJob: Complete Recurring job job and took 9ms
+INFO  [2017-09-12 04:13:13,174] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    89565 nanoseconds spent acquiring 2 JDBC connections;
+    37025 nanoseconds spent releasing 2 JDBC connections;
+    452761 nanoseconds spent preparing 1 JDBC statements;
+    175604 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    5290 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+INFO  [2017-09-12 04:13:13,176] org.eclipse.jetty.ContextHandler.58a5d944: org.tuckey.web.filters.urlrewrite.UrlRewriteFilter INFO: loaded (conf ok)
+INFO  [2017-09-12 04:13:13,283] io.dropwizard.jersey.DropwizardResourceConfig: The following paths were found for the configured resources:
+
+    GET     /api/budgets (io.budgetapp.resource.BudgetResource)
+    POST    /api/budgets (io.budgetapp.resource.BudgetResource)
+    GET     /api/budgets/suggests (io.budgetapp.resource.BudgetResource)
+    DELETE  /api/budgets/{id} (io.budgetapp.resource.BudgetResource)
+    GET     /api/budgets/{id} (io.budgetapp.resource.BudgetResource)
+    PUT     /api/budgets/{id} (io.budgetapp.resource.BudgetResource)
+    GET     /api/budgets/{id}/transactions (io.budgetapp.resource.BudgetResource)
+    GET     /api/categories (io.budgetapp.resource.CategoryResource)
+    POST    /api/categories (io.budgetapp.resource.CategoryResource)
+    GET     /api/categories/suggests (io.budgetapp.resource.CategoryResource)
+    GET     /api/categories/summary (io.budgetapp.resource.CategoryResource)
+    DELETE  /api/categories/{id} (io.budgetapp.resource.CategoryResource)
+    GET     /api/categories/{id} (io.budgetapp.resource.CategoryResource)
+    GET     /api/categories/{id}/budgets (io.budgetapp.resource.CategoryResource)
+    GET     /api/health/ping (io.budgetapp.resource.HealthCheckResource)
+    GET     /api/recurrings (io.budgetapp.resource.RecurringResource)
+    POST    /api/recurrings (io.budgetapp.resource.RecurringResource)
+    DELETE  /api/recurrings/{id} (io.budgetapp.resource.RecurringResource)
+    GET     /api/recurrings/{id}/transactions (io.budgetapp.resource.RecurringResource)
+    POST    /api/reports/transactions (io.budgetapp.resource.ReportResource)
+    GET     /api/transactions (io.budgetapp.resource.TransactionResource)
+    POST    /api/transactions (io.budgetapp.resource.TransactionResource)
+    GET     /api/transactions/monthly (io.budgetapp.resource.TransactionResource)
+    GET     /api/transactions/summary (io.budgetapp.resource.TransactionResource)
+    GET     /api/transactions/today (io.budgetapp.resource.TransactionResource)
+    DELETE  /api/transactions/{id} (io.budgetapp.resource.TransactionResource)
+    GET     /api/transactions/{id} (io.budgetapp.resource.TransactionResource)
+    POST    /api/users (io.budgetapp.resource.UserResource)
+    PUT     /api/users (io.budgetapp.resource.UserResource)
+    GET     /api/users/account (io.budgetapp.resource.UserResource)
+    POST    /api/users/auth (io.budgetapp.resource.UserResource)
+    PUT     /api/users/password (io.budgetapp.resource.UserResource)
+    GET     /api/users/ping (io.budgetapp.resource.UserResource)
+    GET     /api/users/usage (io.budgetapp.resource.UserResource)
+
+INFO  [2017-09-12 04:13:13,284] org.eclipse.jetty.server.handler.ContextHandler: Started i.d.j.MutableServletContextHandler@58a5d944{/,null,AVAILABLE}
+INFO  [2017-09-12 04:13:13,285] io.dropwizard.setup.AdminEnvironment: tasks = 
+
+    POST    /tasks/log-level (io.dropwizard.servlets.tasks.LogConfigurationTask)
+    POST    /tasks/gc (io.dropwizard.servlets.tasks.GarbageCollectionTask)
+
+INFO  [2017-09-12 04:13:13,286] org.eclipse.jetty.server.handler.ContextHandler: Started i.d.j.MutableServletContextHandler@30d25bdf{/,null,AVAILABLE}
+INFO  [2017-09-12 04:13:13,287] org.eclipse.jetty.server.AbstractConnector: Started application@f0694bb{HTTP/1.1,[http/1.1]}{0.0.0.0:9999}
+INFO  [2017-09-12 04:13:13,289] org.eclipse.jetty.server.AbstractConnector: Started admin@6ffad2fe{HTTP/1.1,[http/1.1]}{0.0.0.0:8081}
+INFO  [2017-09-12 04:13:13,289] org.eclipse.jetty.server.Server: Started @9445ms
+DEBUG [2017-09-12 04:13:13,305] io.budgetapp.resource.ResourceIT: 1 * Sending client request on thread Test worker
+1 > POST http://localhost:9999/api/users
+1 > Accept: application/json
+1 > Content-Type: application/json
+{"username":"50cd9f20@cfb9b1af.com","password":"bd3bf1df"}
+
+WARN  [2017-09-12 04:13:13,314] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,315] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_6_0_,
+        this_.created_at as created_2_6_0_,
+        this_.currency as currency3_6_0_,
+        this_.name as name4_6_0_,
+        this_.password as password5_6_0_,
+        this_.username as username6_6_0_ 
+    from
+        users this_ 
+    where
+        lower(this_.username)=?
+DEBUG [2017-09-12 04:13:13,317] io.budgetapp.dao.UserDAO: Add new user SignUpForm{username='50cd9f20@cfb9b1af.com', password='ffa9ac70485b1d52777b0f2f790e87696e606f15e1938356df0264c5483db0c1abde7b93ad6f30b7'}
+DEBUG [2017-09-12 04:13:13,317] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.User
+        */ insert 
+        into
+            users
+            (id, currency, name, password, username) 
+        values
+            (default, ?, ?, ?, ?)
+WARN  [2017-09-12 04:13:13,318] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,318] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_3_1_,
+        this_.created_at as created_2_3_1_,
+        this_.name as name3_3_1_,
+        this_.type as type4_3_1_,
+        this_.user_id as user_id5_3_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        categories this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.user_id=? 
+    order by
+        this_.type desc
+DEBUG [2017-09-12 04:13:13,319] io.budgetapp.service.FinanceService: Create default categories and budgets User{id=4, username='50cd9f20@cfb9b1af.com'} 9-2017
+DEBUG [2017-09-12 04:13:13,319] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Income', type=INCOME, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,320] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,321] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Home', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,321] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,321] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Transportation', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,322] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,322] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Health', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,322] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,323] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Charity/Gifts', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,323] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,323] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Daily Living', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,324] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,324] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Entertainment', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,324] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,325] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Savings', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,325] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,325] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Obligations', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,326] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,326] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='Miscellaneous', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,326] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,326] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,327] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Wages & Tips', createdAt=null, user=null, category=Category{id=37, name='Income', type=INCOME, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,327] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,327] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,327] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Interest Income', createdAt=null, user=null, category=Category{id=37, name='Income', type=INCOME, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,328] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,328] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,328] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Dividends', createdAt=null, user=null, category=Category{id=37, name='Income', type=INCOME, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,328] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,329] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,329] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Gifts Received', createdAt=null, user=null, category=Category{id=37, name='Income', type=INCOME, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,329] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,329] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,329] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Refunds/Reimbursements', createdAt=null, user=null, category=Category{id=37, name='Income', type=INCOME, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,329] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,330] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,330] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Transfer From Savings', createdAt=null, user=null, category=Category{id=37, name='Income', type=INCOME, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,330] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,330] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,330] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Mortgage/Rent', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,331] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,331] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,331] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Home/Rental Insurance', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,331] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,332] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,332] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Electricity', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,332] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,332] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,332] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Gas/Oil', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,332] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,333] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,333] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Water/Sewer/Trash', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,333] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,333] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,333] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Phone', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,333] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,334] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,334] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Cable/Satellite', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,334] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,334] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,334] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Internet', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,334] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,335] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,335] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Furnishings/Appliances', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,335] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,335] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,335] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Lawn/Garden', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,336] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,336] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,336] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Maintenance/Supplies', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,336] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,336] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,337] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Improvements', createdAt=null, user=null, category=Category{id=38, name='Home', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,337] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,337] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,337] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Vehicle Payments', createdAt=null, user=null, category=Category{id=39, name='Transportation', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,337] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,337] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,338] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Auto Insurance', createdAt=null, user=null, category=Category{id=39, name='Transportation', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,338] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,338] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,338] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Fuel', createdAt=null, user=null, category=Category{id=39, name='Transportation', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,338] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,338] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,339] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Bus/Taxi/Train Fare', createdAt=null, user=null, category=Category{id=39, name='Transportation', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,339] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,339] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,339] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Repairs', createdAt=null, user=null, category=Category{id=39, name='Transportation', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,339] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,339] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,340] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Registration/License', createdAt=null, user=null, category=Category{id=39, name='Transportation', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,340] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,340] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,340] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Health Insurance', createdAt=null, user=null, category=Category{id=40, name='Health', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,340] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,340] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,341] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Doctor/Dentist', createdAt=null, user=null, category=Category{id=40, name='Health', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,341] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,341] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,341] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Medicine/Drugs', createdAt=null, user=null, category=Category{id=40, name='Health', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,341] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,341] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,341] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Health Club Dues', createdAt=null, user=null, category=Category{id=40, name='Health', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,342] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,342] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,342] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Life Insurance', createdAt=null, user=null, category=Category{id=40, name='Health', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,342] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,342] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,343] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Veterinarian/Pet Care', createdAt=null, user=null, category=Category{id=40, name='Health', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,343] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,343] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,346] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Gifts Given', createdAt=null, user=null, category=Category{id=41, name='Charity/Gifts', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,346] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,347] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,347] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Charitable Donations', createdAt=null, user=null, category=Category{id=41, name='Charity/Gifts', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,347] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,348] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,348] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Religious Donations', createdAt=null, user=null, category=Category{id=41, name='Charity/Gifts', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,348] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,349] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,349] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Groceries', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,349] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,350] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,350] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Personal Supplies', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,351] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,352] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,352] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Clothing', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,352] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,353] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,353] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Cleaning', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,353] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,354] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,354] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Education/Lessons', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,354] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,355] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,356] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Dining/Eating Out', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,356] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,357] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,357] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Salon/Barber', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,357] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,358] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,358] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Pet Food', createdAt=null, user=null, category=Category{id=42, name='Daily Living', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,359] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,359] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,359] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Videos/DVDs', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,360] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,360] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,361] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Music', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,361] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,362] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,362] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Games', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,363] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,364] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,364] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Rentals', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,365] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,365] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,366] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Movies/Theater', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,366] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,367] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,367] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Concerts/Plays', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,368] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,369] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,369] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Books', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,370] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,370] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,371] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Hobbies', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,371] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,372] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,372] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Film/Photos', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,372] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,373] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,373] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Sports', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,373] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,374] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,374] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Outdoor Recreation', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,374] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,375] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,375] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Toys/Gadgets', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,375] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,376] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,376] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Vacation/Travel', createdAt=null, user=null, category=Category{id=43, name='Entertainment', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,376] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,377] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,378] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Emergency Fund', createdAt=null, user=null, category=Category{id=44, name='Savings', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,378] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,379] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,379] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Transfer to Savings', createdAt=null, user=null, category=Category{id=44, name='Savings', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,380] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,381] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,381] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Retirement (401k, IRA)', createdAt=null, user=null, category=Category{id=44, name='Savings', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,382] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,382] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,383] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Investments', createdAt=null, user=null, category=Category{id=44, name='Savings', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,383] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,383] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,383] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Education', createdAt=null, user=null, category=Category{id=44, name='Savings', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,384] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,384] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,384] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Student Loan', createdAt=null, user=null, category=Category{id=45, name='Obligations', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,384] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,385] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,385] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Other Loan', createdAt=null, user=null, category=Category{id=45, name='Obligations', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,385] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,385] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,386] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Credit Cards', createdAt=null, user=null, category=Category{id=45, name='Obligations', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,386] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,386] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,387] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Alimony/Child Care', createdAt=null, user=null, category=Category{id=45, name='Obligations', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,387] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,388] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,388] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Federal Taxes', createdAt=null, user=null, category=Category{id=45, name='Obligations', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,389] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,389] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,389] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='State/Local Taxes', createdAt=null, user=null, category=Category{id=45, name='Obligations', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,389] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,390] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,390] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Bank Fees', createdAt=null, user=null, category=Category{id=46, name='Miscellaneous', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,390] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,391] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,391] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='Postage', createdAt=null, user=null, category=Category{id=46, name='Miscellaneous', type=EXPENDITURE, createdAt=null, user=User{id=4, username='50cd9f20@cfb9b1af.com'}}}
+DEBUG [2017-09-12 04:13:13,391] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,395] io.budgetapp.resource.ResourceIT: 1 * Client response received on thread Test worker
+1 < 201
+1 < Content-Length: 177
+1 < Content-Type: application/json
+1 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+1 < Location: http://localhost:9999/api/users/4
+{"id":4,"username":"50cd9f20@cfb9b1af.com","name":null,"createdAt":null,"currency":null,"token":null,"avatar":"https://www.gravatar.com/avatar/c976de541e3bb4ba9cca1266b0dcd624"}
+
+DEBUG [2017-09-12 04:13:13,396] io.budgetapp.resource.ResourceIT: 2 * Sending client request on thread Test worker
+2 > POST http://localhost:9999/api/users/auth
+2 > Accept: application/json
+2 > Content-Type: application/json
+{"username":"50cd9f20@cfb9b1af.com","password":"bd3bf1df"}
+
+INFO  [2017-09-12 04:13:13,397] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    45841 nanoseconds spent acquiring 2 JDBC connections;
+    30678 nanoseconds spent releasing 2 JDBC connections;
+    17336426 nanoseconds spent preparing 147 JDBC statements;
+    8973757 nanoseconds spent executing 147 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    474270 nanoseconds spent executing 1 flushes (flushing a total of 145 entities and 0 collections);
+    87802 nanoseconds spent executing 2 partial-flushes (flushing a total of 1 entities and 1 collections)
+}
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/users HTTP/1.1" 201 177 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 90
+WARN  [2017-09-12 04:13:13,400] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,400] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_6_0_,
+        this_.created_at as created_2_6_0_,
+        this_.currency as currency3_6_0_,
+        this_.name as name4_6_0_,
+        this_.password as password5_6_0_,
+        this_.username as username6_6_0_ 
+    from
+        users this_ 
+    where
+        lower(this_.username)=?
+WARN  [2017-09-12 04:13:13,402] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,403] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.user_id=?
+DEBUG [2017-09-12 04:13:13,404] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.AuthToken
+        */ insert 
+        into
+            auth_tokens
+            (id, token, user_id) 
+        values
+            (default, ?, ?)
+DEBUG [2017-09-12 04:13:13,406] io.budgetapp.resource.ResourceIT: 2 * Client response received on thread Test worker
+2 < 200
+2 < Content-Length: 220
+2 < Content-Type: application/json
+2 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+{"id":4,"username":"50cd9f20@cfb9b1af.com","name":null,"createdAt":1505189593318,"currency":null,"token":"2adc64f3-c4b0-4ab1-9a72-0746c748e1e4","avatar":"https://www.gravatar.com/avatar/c976de541e3bb4ba9cca1266b0dcd624"}
+
+INFO  [2017-09-12 04:13:13,419] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    47250 nanoseconds spent acquiring 2 JDBC connections;
+    28915 nanoseconds spent releasing 2 JDBC connections;
+    842754 nanoseconds spent preparing 3 JDBC statements;
+    173489 nanoseconds spent executing 3 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    81808 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    88507 nanoseconds spent executing 2 partial-flushes (flushing a total of 1 entities and 1 collections)
+}
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/users/auth HTTP/1.1" 200 220 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 22
+DEBUG [2017-09-12 04:13:13,426] io.budgetapp.resource.ResourceIT: 1 * Sending client request on thread Test worker
+1 > POST http://localhost:9999/api/categories
+1 > Accept: application/json
+1 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+1 > Content-Type: application/json
+{"id":null,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":null}
+
+WARN  [2017-09-12 04:13:13,428] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,429] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,430] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    53598 nanoseconds spent acquiring 2 JDBC connections;
+    39493 nanoseconds spent releasing 2 JDBC connections;
+    366016 nanoseconds spent preparing 1 JDBC statements;
+    121652 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    125532 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5994 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,436] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='67127ad0', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,436] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+INFO  [2017-09-12 04:13:13,439] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    34909 nanoseconds spent acquiring 2 JDBC connections;
+    40903 nanoseconds spent releasing 2 JDBC connections;
+    132584 nanoseconds spent preparing 1 JDBC statements;
+    87097 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    77928 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,440] io.budgetapp.resource.ResourceIT: 1 * Client response received on thread Test worker
+1 < 201
+1 < Content-Length: 259
+1 < Content-Type: application/json
+1 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+1 < Location: http://localhost:9999/api/categories/47
+{"id":47,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":{"id":4,"username":"50cd9f20@cfb9b1af.com","name":null,"createdAt":1505189593318,"currency":null,"token":null,"avatar":"https://www.gravatar.com/avatar/c976de541e3bb4ba9cca1266b0dcd624"}}
+
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/categories HTTP/1.1" 201 259 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 12
+DEBUG [2017-09-12 04:13:13,441] io.budgetapp.resource.ResourceIT: 2 * Sending client request on thread Test worker
+2 > POST http://localhost:9999/api/budgets
+2 > Accept: application/json
+2 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+2 > Content-Type: application/json
+{"name":"6bcb20cf","projected":0.0,"categoryId":47}
+
+WARN  [2017-09-12 04:13:13,443] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,443] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,444] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    56419 nanoseconds spent acquiring 2 JDBC connections;
+    29620 nanoseconds spent releasing 2 JDBC connections;
+    334281 nanoseconds spent preparing 1 JDBC statements;
+    63824 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    75813 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5289 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,449] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+DEBUG [2017-09-12 04:13:13,450] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='6bcb20cf', createdAt=null, user=null, category=Category{id=47, name='null', type=null, createdAt=null, user=null}}
+DEBUG [2017-09-12 04:13:13,450] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+INFO  [2017-09-12 04:13:13,454] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    34557 nanoseconds spent acquiring 2 JDBC connections;
+    26093 nanoseconds spent releasing 2 JDBC connections;
+    213685 nanoseconds spent preparing 2 JDBC statements;
+    156563 nanoseconds spent executing 2 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    77576 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,454] io.budgetapp.resource.ResourceIT: 2 * Client response received on thread Test worker
+2 < 201
+2 < Content-Length: 212
+2 < Content-Type: application/json
+2 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+2 < Location: http://localhost:9999/api/budgets/277
+{"id":277,"name":"6bcb20cf","projected":0.0,"actual":0.0,"period":1504242000000,"createdAt":null,"category":{"id":47,"name":null,"type":null,"createdAt":null,"user":null},"budgetType":{"id":277,"createdAt":null}}
+
+DEBUG [2017-09-12 04:13:13,457] io.budgetapp.resource.ResourceIT: 3 * Sending client request on thread Test worker
+3 > POST http://localhost:9999/api/transactions
+3 > Accept: application/json
+3 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+3 > Content-Type: application/json
+{"amount":10.0,"remark":null,"transactionOn":1505189593456,"recurring":null,"recurringType":null,"budget":{"id":277,"name":"6bcb20cf","projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":{"id":47,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":null},"budgetType":null}}
+
+WARN  [2017-09-12 04:13:13,459] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,459] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,460] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    54655 nanoseconds spent acquiring 2 JDBC connections;
+    35261 nanoseconds spent releasing 2 JDBC connections;
+    295493 nanoseconds spent preparing 1 JDBC statements;
+    62766 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    70523 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5289 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,465] org.hibernate.SQL: 
+    select
+        budget0_.id as id1_2_0_,
+        budget0_.actual as actual2_2_0_,
+        budget0_.type_id as type_id7_2_0_,
+        budget0_.category_id as category8_2_0_,
+        budget0_.created_at as created_3_2_0_,
+        budget0_.name as name4_2_0_,
+        budget0_.period_on as period_o5_2_0_,
+        budget0_.projected as projecte6_2_0_,
+        budget0_.user_id as user_id9_2_0_ 
+    from
+        budgets budget0_ 
+    where
+        budget0_.id=?
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/budgets HTTP/1.1" 201 212 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 13
+DEBUG [2017-09-12 04:13:13,466] io.budgetapp.dao.TransactionDAO: Add transaction Transaction{id=null, amount=10.0, remark='null', transactionOn=Mon Sep 11 23:13:13 CDT 2017, createdAt=null, budget=Budget{id=277, actual=0.0, name='6bcb20cf', createdAt=null, user=null, category=Category{id=47, name='67127ad0', type=EXPENDITURE, createdAt=null, user=null}}}
+DEBUG [2017-09-12 04:13:13,466] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Transaction
+        */ insert 
+        into
+            transactions
+            (id, amount, auto, budget_id, name, recurring_id, remark, transaction_on) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,468] org.hibernate.SQL: 
+    /* update
+        io.budgetapp.model.Budget */ update
+            budgets 
+        set
+            actual=?,
+            name=?,
+            projected=? 
+        where
+            id=?
+INFO  [2017-09-12 04:13:13,470] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    35614 nanoseconds spent acquiring 2 JDBC connections;
+    25389 nanoseconds spent releasing 2 JDBC connections;
+    578645 nanoseconds spent preparing 3 JDBC statements;
+    334281 nanoseconds spent executing 3 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    1059262 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,471] io.budgetapp.resource.ResourceIT: 3 * Client response received on thread Test worker
+3 < 201
+3 < Content-Length: 336
+3 < Content-Type: application/json
+3 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+3 < Location: http://localhost:9999/api/transactions/3
+{"id":3,"name":"6bcb20cf","amount":10.0,"remark":null,"auto":false,"transactionOn":1505189593456,"createdAt":null,"budget":{"id":277,"name":"6bcb20cf","projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":{"id":47,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":null},"budgetType":null},"recurring":null}
+
+DEBUG [2017-09-12 04:13:13,472] io.budgetapp.resource.ResourceIT: 4 * Sending client request on thread Test worker
+4 > POST http://localhost:9999/api/transactions
+4 > Accept: application/json
+4 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+4 > Content-Type: application/json
+{"amount":10.0,"remark":null,"transactionOn":1505189593472,"recurring":null,"recurringType":null,"budget":{"id":277,"name":"6bcb20cf","projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":{"id":47,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":null},"budgetType":null}}
+
+WARN  [2017-09-12 04:13:13,473] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,474] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,475] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    43725 nanoseconds spent acquiring 2 JDBC connections;
+    24684 nanoseconds spent releasing 2 JDBC connections;
+    283857 nanoseconds spent preparing 1 JDBC statements;
+    81455 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    112838 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5995 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,475] org.hibernate.SQL: 
+    select
+        budget0_.id as id1_2_0_,
+        budget0_.actual as actual2_2_0_,
+        budget0_.type_id as type_id7_2_0_,
+        budget0_.category_id as category8_2_0_,
+        budget0_.created_at as created_3_2_0_,
+        budget0_.name as name4_2_0_,
+        budget0_.period_on as period_o5_2_0_,
+        budget0_.projected as projecte6_2_0_,
+        budget0_.user_id as user_id9_2_0_ 
+    from
+        budgets budget0_ 
+    where
+        budget0_.id=?
+DEBUG [2017-09-12 04:13:13,476] io.budgetapp.dao.TransactionDAO: Add transaction Transaction{id=null, amount=10.0, remark='null', transactionOn=Mon Sep 11 23:13:13 CDT 2017, createdAt=null, budget=Budget{id=277, actual=0.0, name='6bcb20cf', createdAt=null, user=null, category=Category{id=47, name='67127ad0', type=EXPENDITURE, createdAt=null, user=null}}}
+DEBUG [2017-09-12 04:13:13,476] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Transaction
+        */ insert 
+        into
+            transactions
+            (id, amount, auto, budget_id, name, recurring_id, remark, transaction_on) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,477] org.hibernate.SQL: 
+    /* update
+        io.budgetapp.model.Budget */ update
+            budgets 
+        set
+            actual=?,
+            name=?,
+            projected=? 
+        where
+            id=?
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/transactions HTTP/1.1" 201 336 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 13
+INFO  [2017-09-12 04:13:13,478] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    29620 nanoseconds spent acquiring 2 JDBC connections;
+    28210 nanoseconds spent releasing 2 JDBC connections;
+    510590 nanoseconds spent preparing 3 JDBC statements;
+    218976 nanoseconds spent executing 3 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    569124 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,479] io.budgetapp.resource.ResourceIT: 4 * Client response received on thread Test worker
+4 < 201
+4 < Content-Length: 336
+4 < Content-Type: application/json
+4 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+4 < Location: http://localhost:9999/api/transactions/4
+{"id":4,"name":"6bcb20cf","amount":10.0,"remark":null,"auto":false,"transactionOn":1505189593472,"createdAt":null,"budget":{"id":277,"name":"6bcb20cf","projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":{"id":47,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":null},"budgetType":null},"recurring":null}
+
+DEBUG [2017-09-12 04:13:13,479] io.budgetapp.resource.ResourceIT: 5 * Sending client request on thread Test worker
+5 > GET http://localhost:9999/api/transactions/4
+5 > Accept: application/json
+5 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+
+DEBUG [2017-09-12 04:13:13,481] org.hibernate.SQL: 
+    select
+        transactio0_.id as id1_5_0_,
+        transactio0_.amount as amount2_5_0_,
+        transactio0_.auto as auto3_5_0_,
+        transactio0_.budget_id as budget_i8_5_0_,
+        transactio0_.created_at as created_4_5_0_,
+        transactio0_.name as name5_5_0_,
+        transactio0_.recurring_id as recurrin9_5_0_,
+        transactio0_.remark as remark6_5_0_,
+        transactio0_.transaction_on as transact7_5_0_ 
+    from
+        transactions transactio0_ 
+    where
+        transactio0_.id=?
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/transactions HTTP/1.1" 201 336 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 6
+INFO  [2017-09-12 04:13:13,484] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    48662 nanoseconds spent acquiring 2 JDBC connections;
+    28209 nanoseconds spent releasing 2 JDBC connections;
+    497543 nanoseconds spent preparing 1 JDBC statements;
+    53598 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    74755 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,484] io.budgetapp.resource.ResourceIT: 5 * Client response received on thread Test worker
+5 < 200
+5 < Content-Length: 154
+5 < Content-Type: application/json
+5 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+5 < Vary: Accept-Encoding
+{"id":4,"name":"6bcb20cf","amount":10.0,"remark":null,"auto":false,"transactionOn":1505106000000,"createdAt":1505189593477,"budget":null,"recurring":null}
+
+DEBUG [2017-09-12 04:13:13,485] io.budgetapp.resource.ResourceIT: 6 * Sending client request on thread Test worker
+6 > POST http://localhost:9999/api/categories
+6 > Accept: application/json
+6 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+6 > Content-Type: application/json
+{"id":null,"name":"c16cf1da","type":"EXPENDITURE","createdAt":null,"user":null}
+
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "GET /api/transactions/4 HTTP/1.1" 200 154 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 6
+WARN  [2017-09-12 04:13:13,486] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,487] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,488] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    46898 nanoseconds spent acquiring 2 JDBC connections;
+    25741 nanoseconds spent releasing 2 JDBC connections;
+    293025 nanoseconds spent preparing 1 JDBC statements;
+    79692 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    138226 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    11989 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,489] io.budgetapp.dao.CategoryDAO: Add new category Category{id=null, name='c16cf1da', type=EXPENDITURE, createdAt=null, user=null}
+DEBUG [2017-09-12 04:13:13,489] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Category
+        */ insert 
+        into
+            categories
+            (id, name, type, user_id) 
+        values
+            (default, ?, ?, ?)
+INFO  [2017-09-12 04:13:13,491] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    29973 nanoseconds spent acquiring 2 JDBC connections;
+    24682 nanoseconds spent releasing 2 JDBC connections;
+    108254 nanoseconds spent preparing 1 JDBC statements;
+    68760 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    73344 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,491] io.budgetapp.resource.ResourceIT: 6 * Client response received on thread Test worker
+6 < 201
+6 < Content-Length: 259
+6 < Content-Type: application/json
+6 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+6 < Location: http://localhost:9999/api/categories/48
+{"id":48,"name":"c16cf1da","type":"EXPENDITURE","createdAt":null,"user":{"id":4,"username":"50cd9f20@cfb9b1af.com","name":null,"createdAt":1505189593318,"currency":null,"token":null,"avatar":"https://www.gravatar.com/avatar/c976de541e3bb4ba9cca1266b0dcd624"}}
+
+DEBUG [2017-09-12 04:13:13,493] io.budgetapp.resource.ResourceIT: 7 * Sending client request on thread Test worker
+7 > POST http://localhost:9999/api/budgets
+7 > Accept: application/json
+7 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+7 > Content-Type: application/json
+{"name":"10ab4c26","projected":0.0,"categoryId":48}
+
+WARN  [2017-09-12 04:13:13,494] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,494] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,495] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    44077 nanoseconds spent acquiring 2 JDBC connections;
+    28916 nanoseconds spent releasing 2 JDBC connections;
+    273278 nanoseconds spent preparing 1 JDBC statements;
+    84276 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    106491 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5289 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,496] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.BudgetType
+        */ insert 
+        into
+            budget_types
+            (id) 
+        values
+            (default)
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/categories HTTP/1.1" 201 259 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 6
+DEBUG [2017-09-12 04:13:13,497] io.budgetapp.dao.BudgetDAO: User User{id=4, username='50cd9f20@cfb9b1af.com'} add budget Budget{id=null, actual=0.0, name='10ab4c26', createdAt=null, user=null, category=Category{id=48, name='null', type=null, createdAt=null, user=null}}
+DEBUG [2017-09-12 04:13:13,497] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Budget
+        */ insert 
+        into
+            budgets
+            (id, actual, type_id, category_id, name, period_on, projected, user_id) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+INFO  [2017-09-12 04:13:13,498] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    35968 nanoseconds spent acquiring 2 JDBC connections;
+    50425 nanoseconds spent releasing 2 JDBC connections;
+    202050 nanoseconds spent preparing 2 JDBC statements;
+    111426 nanoseconds spent executing 2 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    72286 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,499] io.budgetapp.resource.ResourceIT: 7 * Client response received on thread Test worker
+7 < 201
+7 < Content-Length: 212
+7 < Content-Type: application/json
+7 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+7 < Location: http://localhost:9999/api/budgets/278
+{"id":278,"name":"10ab4c26","projected":0.0,"actual":0.0,"period":1504242000000,"createdAt":null,"category":{"id":48,"name":null,"type":null,"createdAt":null,"user":null},"budgetType":{"id":278,"createdAt":null}}
+
+DEBUG [2017-09-12 04:13:13,500] io.budgetapp.resource.ResourceIT: 8 * Sending client request on thread Test worker
+8 > POST http://localhost:9999/api/transactions
+8 > Accept: application/json
+8 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+8 > Content-Type: application/json
+{"amount":10.0,"remark":null,"transactionOn":1505189593500,"recurring":null,"recurringType":null,"budget":{"id":278,"name":null,"projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":null,"budgetType":null}}
+
+WARN  [2017-09-12 04:13:13,501] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,502] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,503] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    78987 nanoseconds spent acquiring 2 JDBC connections;
+    50423 nanoseconds spent releasing 2 JDBC connections;
+    293025 nanoseconds spent preparing 1 JDBC statements;
+    57124 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    69113 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5289 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,503] org.hibernate.SQL: 
+    select
+        budget0_.id as id1_2_0_,
+        budget0_.actual as actual2_2_0_,
+        budget0_.type_id as type_id7_2_0_,
+        budget0_.category_id as category8_2_0_,
+        budget0_.created_at as created_3_2_0_,
+        budget0_.name as name4_2_0_,
+        budget0_.period_on as period_o5_2_0_,
+        budget0_.projected as projecte6_2_0_,
+        budget0_.user_id as user_id9_2_0_ 
+    from
+        budgets budget0_ 
+    where
+        budget0_.id=?
+DEBUG [2017-09-12 04:13:13,504] io.budgetapp.dao.TransactionDAO: Add transaction Transaction{id=null, amount=10.0, remark='null', transactionOn=Mon Sep 11 23:13:13 CDT 2017, createdAt=null, budget=Budget{id=278, actual=0.0, name='null', createdAt=null, user=null, category=null}}
+DEBUG [2017-09-12 04:13:13,504] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Transaction
+        */ insert 
+        into
+            transactions
+            (id, amount, auto, budget_id, name, recurring_id, remark, transaction_on) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,505] org.hibernate.SQL: 
+    /* update
+        io.budgetapp.model.Budget */ update
+            budgets 
+        set
+            actual=?,
+            name=?,
+            projected=? 
+        where
+            id=?
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/budgets HTTP/1.1" 201 212 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 5
+INFO  [2017-09-12 04:13:13,506] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    33852 nanoseconds spent acquiring 2 JDBC connections;
+    27151 nanoseconds spent releasing 2 JDBC connections;
+    478501 nanoseconds spent preparing 3 JDBC statements;
+    229906 nanoseconds spent executing 3 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    911515 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,507] io.budgetapp.resource.ResourceIT: 8 * Client response received on thread Test worker
+8 < 201
+8 < Content-Length: 257
+8 < Content-Type: application/json
+8 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+8 < Location: http://localhost:9999/api/transactions/5
+{"id":5,"name":"10ab4c26","amount":10.0,"remark":null,"auto":false,"transactionOn":1505189593500,"createdAt":null,"budget":{"id":278,"name":null,"projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":null,"budgetType":null},"recurring":null}
+
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/transactions HTTP/1.1" 201 257 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 7
+DEBUG [2017-09-12 04:13:13,508] io.budgetapp.resource.ResourceIT: 9 * Sending client request on thread Test worker
+9 > GET http://localhost:9999/api/budgets/278/transactions
+9 > Accept: application/json
+9 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+
+WARN  [2017-09-12 04:13:13,509] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,509] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,510] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    49366 nanoseconds spent acquiring 2 JDBC connections;
+    29620 nanoseconds spent releasing 2 JDBC connections;
+    284209 nanoseconds spent preparing 1 JDBC statements;
+    54303 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    79692 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5642 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+WARN  [2017-09-12 04:13:13,511] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,513] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_5_1_,
+        this_.amount as amount2_5_1_,
+        this_.auto as auto3_5_1_,
+        this_.budget_id as budget_i8_5_1_,
+        this_.created_at as created_4_5_1_,
+        this_.name as name5_5_1_,
+        this_.recurring_id as recurrin9_5_1_,
+        this_.remark as remark6_5_1_,
+        this_.transaction_on as transact7_5_1_,
+        budget1_.id as id1_2_0_,
+        budget1_.actual as actual2_2_0_,
+        budget1_.type_id as type_id7_2_0_,
+        budget1_.category_id as category8_2_0_,
+        budget1_.created_at as created_3_2_0_,
+        budget1_.name as name4_2_0_,
+        budget1_.period_on as period_o5_2_0_,
+        budget1_.projected as projecte6_2_0_,
+        budget1_.user_id as user_id9_2_0_ 
+    from
+        transactions this_ 
+    inner join
+        budgets budget1_ 
+            on this_.budget_id=budget1_.id 
+    where
+        budget1_.id=? 
+        and budget1_.user_id=? 
+    order by
+        this_.transaction_on desc,
+        this_.id desc
+INFO  [2017-09-12 04:13:13,516] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    39141 nanoseconds spent acquiring 2 JDBC connections;
+    29621 nanoseconds spent releasing 2 JDBC connections;
+    568067 nanoseconds spent preparing 1 JDBC statements;
+    100143 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    310656 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    6347 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,517] io.budgetapp.resource.ResourceIT: 9 * Client response received on thread Test worker
+9 < 200
+9 < Content-Length: 293
+9 < Content-Type: application/json
+9 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+9 < Vary: Accept-Encoding
+[{"id":5,"name":"10ab4c26","amount":10.0,"remark":null,"auto":false,"transactionOn":1505106000000,"createdAt":1505189593504,"budget":{"id":278,"name":"10ab4c26","projected":0.0,"actual":10.0,"period":1504242000000,"createdAt":1505189593497,"category":null,"budgetType":null},"recurring":null}]
+
+DEBUG [2017-09-12 04:13:13,519] io.budgetapp.resource.ResourceIT: 10 * Sending client request on thread Test worker
+10 > POST http://localhost:9999/api/transactions
+10 > Accept: application/json
+10 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+10 > Content-Type: application/json
+{"amount":10.0,"remark":null,"transactionOn":1505189593518,"recurring":null,"recurringType":null,"budget":{"id":277,"name":"6bcb20cf","projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":{"id":47,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":null},"budgetType":null}}
+
+WARN  [2017-09-12 04:13:13,520] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,520] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "GET /api/budgets/278/transactions HTTP/1.1" 200 293 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 9
+INFO  [2017-09-12 04:13:13,521] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    41961 nanoseconds spent acquiring 2 JDBC connections;
+    26798 nanoseconds spent releasing 2 JDBC connections;
+    307482 nanoseconds spent preparing 1 JDBC statements;
+    54655 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    117069 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5642 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,522] org.hibernate.SQL: 
+    select
+        budget0_.id as id1_2_0_,
+        budget0_.actual as actual2_2_0_,
+        budget0_.type_id as type_id7_2_0_,
+        budget0_.category_id as category8_2_0_,
+        budget0_.created_at as created_3_2_0_,
+        budget0_.name as name4_2_0_,
+        budget0_.period_on as period_o5_2_0_,
+        budget0_.projected as projecte6_2_0_,
+        budget0_.user_id as user_id9_2_0_ 
+    from
+        budgets budget0_ 
+    where
+        budget0_.id=?
+DEBUG [2017-09-12 04:13:13,523] io.budgetapp.dao.TransactionDAO: Add transaction Transaction{id=null, amount=10.0, remark='null', transactionOn=Mon Sep 11 23:13:13 CDT 2017, createdAt=null, budget=Budget{id=277, actual=0.0, name='6bcb20cf', createdAt=null, user=null, category=Category{id=47, name='67127ad0', type=EXPENDITURE, createdAt=null, user=null}}}
+DEBUG [2017-09-12 04:13:13,523] org.hibernate.SQL: 
+    /* insert io.budgetapp.model.Transaction
+        */ insert 
+        into
+            transactions
+            (id, amount, auto, budget_id, name, recurring_id, remark, transaction_on) 
+        values
+            (default, ?, ?, ?, ?, ?, ?, ?)
+DEBUG [2017-09-12 04:13:13,524] org.hibernate.SQL: 
+    /* update
+        io.budgetapp.model.Budget */ update
+            budgets 
+        set
+            actual=?,
+            name=?,
+            projected=? 
+        where
+            id=?
+INFO  [2017-09-12 04:13:13,525] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    34910 nanoseconds spent acquiring 2 JDBC connections;
+    34203 nanoseconds spent releasing 2 JDBC connections;
+    483439 nanoseconds spent preparing 3 JDBC statements;
+    209808 nanoseconds spent executing 3 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    549731 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,526] io.budgetapp.resource.ResourceIT: 10 * Client response received on thread Test worker
+10 < 201
+10 < Content-Length: 336
+10 < Content-Type: application/json
+10 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+10 < Location: http://localhost:9999/api/transactions/6
+{"id":6,"name":"6bcb20cf","amount":10.0,"remark":null,"auto":false,"transactionOn":1505189593518,"createdAt":null,"budget":{"id":277,"name":"6bcb20cf","projected":0.0,"actual":0.0,"period":null,"createdAt":null,"category":{"id":47,"name":"67127ad0","type":"EXPENDITURE","createdAt":null,"user":null},"budgetType":null},"recurring":null}
+
+DEBUG [2017-09-12 04:13:13,527] io.budgetapp.resource.ResourceIT: 11 * Sending client request on thread Test worker
+11 > DELETE http://localhost:9999/api/transactions/6
+11 > Accept: application/json
+11 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+
+WARN  [2017-09-12 04:13:13,528] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "POST /api/transactions HTTP/1.1" 201 336 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 6
+DEBUG [2017-09-12 04:13:13,528] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,529] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    48661 nanoseconds spent acquiring 2 JDBC connections;
+    26799 nanoseconds spent releasing 2 JDBC connections;
+    318413 nanoseconds spent preparing 1 JDBC statements;
+    53598 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    67702 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    6700 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,531] org.hibernate.SQL: 
+    /* 
+FROM
+    Transaction t 
+WHERE
+    t.id = :id 
+    AND t.budget.user = :user */ select
+        transactio0_.id as id1_5_,
+        transactio0_.amount as amount2_5_,
+        transactio0_.auto as auto3_5_,
+        transactio0_.budget_id as budget_i8_5_,
+        transactio0_.created_at as created_4_5_,
+        transactio0_.name as name5_5_,
+        transactio0_.recurring_id as recurrin9_5_,
+        transactio0_.remark as remark6_5_,
+        transactio0_.transaction_on as transact7_5_ 
+    from
+        transactions transactio0_ cross 
+    join
+        budgets budget1_ 
+    where
+        transactio0_.budget_id=budget1_.id 
+        and transactio0_.id=? 
+        and budget1_.user_id=?
+DEBUG [2017-09-12 04:13:13,532] org.hibernate.SQL: 
+    select
+        budget0_.id as id1_2_0_,
+        budget0_.actual as actual2_2_0_,
+        budget0_.type_id as type_id7_2_0_,
+        budget0_.category_id as category8_2_0_,
+        budget0_.created_at as created_3_2_0_,
+        budget0_.name as name4_2_0_,
+        budget0_.period_on as period_o5_2_0_,
+        budget0_.projected as projecte6_2_0_,
+        budget0_.user_id as user_id9_2_0_ 
+    from
+        budgets budget0_ 
+    where
+        budget0_.id=?
+DEBUG [2017-09-12 04:13:13,533] org.hibernate.SQL: 
+    /* update
+        io.budgetapp.model.Budget */ update
+            budgets 
+        set
+            actual=?,
+            name=?,
+            projected=? 
+        where
+            id=?
+DEBUG [2017-09-12 04:13:13,534] org.hibernate.SQL: 
+    /* delete io.budgetapp.model.Transaction */ delete 
+        from
+            transactions 
+        where
+            id=?
+INFO  [2017-09-12 04:13:13,536] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    33852 nanoseconds spent acquiring 2 JDBC connections;
+    27151 nanoseconds spent releasing 2 JDBC connections;
+    831825 nanoseconds spent preparing 4 JDBC statements;
+    282800 nanoseconds spent executing 4 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    2960222 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5642 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,537] io.budgetapp.resource.ResourceIT: 11 * Client response received on thread Test worker
+11 < 204
+11 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+
+DEBUG [2017-09-12 04:13:13,538] io.budgetapp.resource.ResourceIT: 12 * Sending client request on thread Test worker
+12 > DELETE http://localhost:9999/api/transactions/9223372036854775807
+12 > Accept: application/json
+12 > Authorization: Bearer 2adc64f3-c4b0-4ab1-9a72-0746c748e1e4
+
+WARN  [2017-09-12 04:13:13,539] org.hibernate.orm.deprecation: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+DEBUG [2017-09-12 04:13:13,540] org.hibernate.SQL: 
+    /* criteria query */ select
+        this_.id as id1_0_1_,
+        this_.created_at as created_2_0_1_,
+        this_.token as token3_0_1_,
+        this_.user_id as user_id4_0_1_,
+        user2_.id as id1_6_0_,
+        user2_.created_at as created_2_6_0_,
+        user2_.currency as currency3_6_0_,
+        user2_.name as name4_6_0_,
+        user2_.password as password5_6_0_,
+        user2_.username as username6_6_0_ 
+    from
+        auth_tokens this_ 
+    inner join
+        users user2_ 
+            on this_.user_id=user2_.id 
+    where
+        this_.token=?
+INFO  [2017-09-12 04:13:13,541] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    51130 nanoseconds spent acquiring 2 JDBC connections;
+    33498 nanoseconds spent releasing 2 JDBC connections;
+    276804 nanoseconds spent preparing 1 JDBC statements;
+    58887 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    83570 nanoseconds spent executing 1 flushes (flushing a total of 2 entities and 0 collections);
+    5994 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,541] org.hibernate.SQL: 
+    /* 
+FROM
+    Transaction t 
+WHERE
+    t.id = :id 
+    AND t.budget.user = :user */ select
+        transactio0_.id as id1_5_,
+        transactio0_.amount as amount2_5_,
+        transactio0_.auto as auto3_5_,
+        transactio0_.budget_id as budget_i8_5_,
+        transactio0_.created_at as created_4_5_,
+        transactio0_.name as name5_5_,
+        transactio0_.recurring_id as recurrin9_5_,
+        transactio0_.remark as remark6_5_,
+        transactio0_.transaction_on as transact7_5_ 
+    from
+        transactions transactio0_ cross 
+    join
+        budgets budget1_ 
+    where
+        transactio0_.budget_id=budget1_.id 
+        and transactio0_.id=? 
+        and budget1_.user_id=?
+INFO  [2017-09-12 04:13:13,543] org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: Session Metrics {
+    31736 nanoseconds spent acquiring 2 JDBC connections;
+    26800 nanoseconds spent releasing 2 JDBC connections;
+    476739 nanoseconds spent preparing 1 JDBC statements;
+    49367 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    4937 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+DEBUG [2017-09-12 04:13:13,544] io.budgetapp.resource.ResourceIT: 12 * Client response received on thread Test worker
+12 < 404
+12 < Content-Length: 0
+12 < Date: Tue, 12 Sep 2017 04:13:13 GMT
+
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "DELETE /api/transactions/6 HTTP/1.1" 204 0 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 10
+127.0.0.1 - - [12/Sep/2017:04:13:13 +0000] "DELETE /api/transactions/9223372036854775807 HTTP/1.1" 404 0 "-" "Jersey/2.25.1 (HttpUrlConnection 1.8.0_144)" 4
+INFO  [2017-09-12 04:13:13,546] org.eclipse.jetty.server.AbstractConnector: Stopped application@f0694bb{HTTP/1.1,[http/1.1]}{0.0.0.0:9999}
+INFO  [2017-09-12 04:13:13,547] org.eclipse.jetty.server.AbstractConnector: Stopped admin@6ffad2fe{HTTP/1.1,[http/1.1]}{0.0.0.0:8081}
+INFO  [2017-09-12 04:13:13,547] org.eclipse.jetty.server.handler.ContextHandler: Stopped i.d.j.MutableServletContextHandler@30d25bdf{/,null,UNAVAILABLE}
+INFO  [2017-09-12 04:13:13,548] org.eclipse.jetty.ContextHandler.58a5d944: org.tuckey.web.filters.urlrewrite.UrlRewriteFilter INFO: destroy called
+INFO  [2017-09-12 04:13:13,548] org.eclipse.jetty.server.handler.ContextHandler: Stopped i.d.j.MutableServletContextHandler@58a5d944{/,null,UNAVAILABLE}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
